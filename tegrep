@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ -z "$EDITOR" ]; then
+  EDITOR="$(which edit)"
+fi
+
+tmpfile="$(mktemp)"
+trap "rm -f $tmpfile" EXIT
+
+if [ ! -t 0 ]; then
+  cat /dev/stdin > "$tmpfile"
+  </dev/tty "$EDITOR" "$tmpfile" >/dev/tty
+  cat "$tmpfile"
+elif [ "$#" -gt 0 ]; then
+  cp "$1" "$tmpfile"
+  $EDITOR "$tmpfile"
+  cat "$tmpfile"
+else
+  echo >&2 unco
+fi
+
