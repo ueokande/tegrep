@@ -1,5 +1,9 @@
 #!/bin/sh
 
+usage() {
+  echo >&2 "Usage: tegrep [FILE]"
+}
+
 if [ -z "$EDITOR" ]; then
   EDITOR="$(which edit)"
 fi
@@ -16,6 +20,7 @@ elif [ "$#" -gt 0 ]; then
   $EDITOR "$tmpfile"
   cat "$tmpfile"
 else
-  echo >&2 unco
+  usage
+  exit 1
 fi
 
